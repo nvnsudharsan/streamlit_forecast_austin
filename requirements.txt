@@ -1,15 +1,13 @@
 streamlit
-xarray --no-binary=xarray
-netcdf4 --no-binary=netcdf4
-shapely --no-binary=shapely
-cartopy --no-binary=cartopy
+xarray
+netcdf4
+shapely
+cartopy
 plotly
 numpy
 matplotlib
 cartopy
 netcdf4
-h5netcdf
-scipy
-pydap
+
 
 
