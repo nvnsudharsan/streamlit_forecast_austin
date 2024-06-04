@@ -9,11 +9,26 @@ Created on Mon Jun  3 18:18:42 2024
 import streamlit as st
 import xarray as xr
 import plotly.graph_objects as go
+import numpy as np
+import matplotlib.pyplot as plt
+import cartopy.crs as ccrs
+import cartopy.mpl.ticker as cticker
+import cartopy.feature as cfeature
+import requests
+from io import BytesIO
+
+def download_file(url):
+    response = requests.get(url)
+    response.raise_for_status()
+    return BytesIO(response.content)
 
 # Load data using xarray
 @st.cache_data 
 def ECMWF_forecast(lat = 30.2672, lon = -97.7431):
-    data = xr.open_dataset('https://github.com/nvnsudharsan/streamlit_forecast_austin/raw/main/forecast_ecmwf_may_.nc', engine='netcdf4')
+    url = 'https://github.com/nvnsudharsan/streamlit_forecast_austin/raw/main/forecast_ecmwf_may_.nc'
+    # Download the file
+    data_file = download_file(url)
+    data = xr.open_dataset(data_file, engine='netcdf4')
     t2m = data.t2m
     t2m = t2m - 273.15
     t2m = (t2m*(9/5))+32
@@ -26,7 +41,9 @@ def ECMWF_forecast(lat = 30.2672, lon = -97.7431):
     return time, median_temp, min_temp, max_temp
 
 def ECMWF_anom(month):
-    anom_fc         = xr.open_dataset('https://github.com/nvnsudharsan/streamlit_forecast_austin/raw/main/type_fcmean.nc',engine='netcdf4')
+    url             = 'https://github.com/nvnsudharsan/streamlit_forecast_austin/raw/main/type_fcmean.nc'
+    data_file_1     = download_file(url)
+    anom_fc         = xr.open_dataset(data_file_1,engine='netcdf4')
     anom_fc         = anom_fc.t2a
     anom_fc_median  = anom_fc.median('number')
     temp_anom       = anom_fc_median[month,:,:].values
