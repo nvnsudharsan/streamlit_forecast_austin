@@ -25,7 +25,14 @@ def ECMWF_forecast(lat = 30.2672, lon = -97.7431):
     max_temp = tmax_austin.max('number').values
     return time, median_temp, min_temp, max_temp
 
-def ECMWF_
+def ECMWF_anom(month):
+    anom_fc         = xr.open_dataset('/Users/geo-ns36752/Downloads/seasonal anomalies_may_ecmwf/type_fcmean.nc')
+    anom_fc         = anom_fc.t2a
+    anom_fc_median  = anom_fc.median('number')
+    temp_anom       = anom_fc_median[month,:,:].values
+    lat             = anom_fc.latitude.values
+    lon             = anom_fc.longitude.values
+    return temp_anom, lat, lon
 
 def main():
     st.title("Temperature Outlook for Austin")
@@ -60,6 +67,28 @@ def main():
     fig.update_xaxes(showline=True, linewidth=2, linecolor='white')
     fig.update_yaxes(showline=True, linewidth=2, linecolor='white')
     st.plotly_chart(fig)
+
+    st.write("<h2>Temperature Anomaly over Texas<h2>", unsafe_allow_html=True)
+    option_mapping = {"May": 0, "June": 1, "July": 2, "August":3}
+    selected_option = st.selectbox("Select a month", list(option_mapping.keys()))
+    selected_value = option_mapping[selected_option]
+    temp_anom, lat, lon = ECMWF_anom(selected_value)
+    fig, ax = plt.subplots(nrows=1,ncols=1,
+                        subplot_kw={'projection': ccrs.PlateCarree()},
+                        figsize=(12,8))
+    temp_anom_fc_f = (temp_anom*(9/5))
+    im = plt.pcolormesh(lon,lat,temp_anom_fc_f,cmap='RdBu_r',vmax =4, vmin=-4)
+    cb = plt.colorbar(im)
+    cb.set_label('Temperature Anomaly (°F)',size=15)
+    ax.set_extent([-107, -93, 25, 37])
+    ax.add_feature(cfeature.STATES, facecolor='none')
+    ax.plot(-97.7431, 30.2672, marker='o', color='darkgreen', transform=ccrs.PlateCarree(),markersize = 10)
+    ax.text(-98.35, 29.75,'Austin',fontsize=15)
+    ax.set_xticks(np.arange(-107,-92,2), crs=ccrs.PlateCarree())
+    ax.set_yticks(np.arange(25,38,2), crs=ccrs.PlateCarree())
+    ax.set_ylabel('Latitude', size = 15)
+    ax.set_xlabel('Longitude', size = 15)
+    st.pyplot(fig)
         
 if __name__ == "__main__":
     main()
