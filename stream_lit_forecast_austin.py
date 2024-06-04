@@ -58,7 +58,7 @@ def ECMWF_anom(month):
     return temp_anom, lat, lon
 
 def main():
-    st.title("Temperature prediction for Austin")
+    st.title("Temperature forecast for Austin")
     st.write('The data used here is from the ECMWF seasonal forecast initiated on May 1st. It is a 51 member forecast, which initiates on 1st of every month.')
 
     # File uploader for NetCDF files
@@ -87,7 +87,7 @@ def main():
             line=dict(color='grey',width=2.5)
             ))
     fig.update_traces(opacity=0.8)
-    fig.update_layout(title='Temperature prediction for Austin (ECMWF)', xaxis_title='Time', yaxis_title='Temperature (°F)')
+    fig.update_layout(title='Temperature forecast for Austin (ECMWF)', xaxis_title='Time', yaxis_title='Temperature (°F)')
     fig.update_xaxes(showline=True, linewidth=2, linecolor='white')
     fig.update_yaxes(showline=True, linewidth=2, linecolor='white')
     st.plotly_chart(fig)
