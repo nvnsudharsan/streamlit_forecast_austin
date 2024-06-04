@@ -13,7 +13,7 @@ import plotly.graph_objects as go
 # Load data using xarray
 @st.cache_data 
 def ECMWF_forecast(lat = 30.2672, lon = -97.7431):
-    data = xr.open_dataset('https://github.com/nvnsudharsan/streamlit_forecast_austin/raw/main/type_fcmean.nc', engine='netcdf4')
+    data = xr.open_dataset('https://github.com/nvnsudharsan/streamlit_forecast_austin/raw/main/forecast_ecmwf_may_.nc', engine='netcdf4')
     t2m = data.t2m
     t2m = t2m - 273.15
     t2m = (t2m*(9/5))+32
@@ -26,7 +26,7 @@ def ECMWF_forecast(lat = 30.2672, lon = -97.7431):
     return time, median_temp, min_temp, max_temp
 
 def ECMWF_anom(month):
-    anom_fc         = xr.open_dataset('https://github.com/nvnsudharsan/streamlit_forecast_austin/raw/main/forecast_ecmwf_may_.nc',engine='netcdf4')
+    anom_fc         = xr.open_dataset('https://github.com/nvnsudharsan/streamlit_forecast_austin/raw/main/type_fcmean.nc',engine='netcdf4')
     anom_fc         = anom_fc.t2a
     anom_fc_median  = anom_fc.median('number')
     temp_anom       = anom_fc_median[month,:,:].values
