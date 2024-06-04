@@ -8,6 +8,5 @@ netcdf4==1.6.2
 h5netcdf==1.2.0
 scipy==1.12.0 
 pydap
-h5pyd
-hdf5
+h5py==3.9.0
 
