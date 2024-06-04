@@ -11,5 +11,5 @@ netcdf4
 h5netcdf
 scipy
 pydap
-h5py
+
 
