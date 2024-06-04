@@ -58,8 +58,8 @@ def ECMWF_anom(month):
     return temp_anom, lat, lon
 
 def main():
-    st.title("Temperature prediction for Austin - ECMWF")
-    st.write('The model is initiated on May 1st')
+    st.title("Temperature prediction for Austin")
+    st.write('The data used here is from the ECMWF seasonal forecast initiated on May 1st. It is a 51 member forecast, which initiates on 1st of every month.')
 
     # File uploader for NetCDF files
    # uploaded_file = st.file_uploader("Upload a NetCDF file", type=["nc"])
@@ -91,7 +91,7 @@ def main():
     fig.update_xaxes(showline=True, linewidth=2, linecolor='white')
     fig.update_yaxes(showline=True, linewidth=2, linecolor='white')
     st.plotly_chart(fig)
-    st.write('The daily maximum temperature from 51 members in the model are used here. This shows the trend of daily maximum temperature in Austin.')
+    st.write('This shows the daily maximum temperature in Austin.')
 
     st.write("<h2>Temperature Anomaly over Texas<h2>", unsafe_allow_html=True)
     option_mapping = {"May": 0, "June": 1, "July": 2, "August":3}
