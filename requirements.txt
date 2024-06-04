@@ -7,3 +7,4 @@ cartopy==0.22.0
 netcdf4==1.6.2
 h5netcdf==1.2.0
 scipy==1.12.0 
+pydap
