@@ -91,7 +91,7 @@ def main():
     fig.update_xaxes(showline=True, linewidth=2, linecolor='white')
     fig.update_yaxes(showline=True, linewidth=2, linecolor='white')
     st.plotly_chart(fig)
-    st.write('This shows the daily maximum temperature in Austin.')
+    st.write('The figure shows the forecasted daily maximum temperature in Austin.')
 
     st.write("<h2>Temperature Anomaly over Texas<h2>", unsafe_allow_html=True)
     option_mapping = {"May": 0, "June": 1, "July": 2, "August":3}
