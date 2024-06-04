@@ -17,18 +17,23 @@ import cartopy.feature as cfeature
 import requests
 from io import BytesIO
 
-def download_file(url):
-    response = requests.get(url)
-    response.raise_for_status()
-    return BytesIO(response.content)
+
+def download_file(url, local_filename):
+    with requests.get(url, stream=True) as r:
+        r.raise_for_status()
+        with open(local_filename, 'wb') as f:
+            for chunk in r.iter_content(chunk_size=8192):
+                f.write(chunk)
+    return local_filename
 
 # Load data using xarray
 @st.cache_data 
 def ECMWF_forecast(lat = 30.2672, lon = -97.7431):
     url = 'https://github.com/nvnsudharsan/streamlit_forecast_austin/raw/main/forecast_ecmwf_may_.nc'
+    local_filename = 'forecast_ecmwf_may_.nc'
     # Download the file
-    data_file = download_file(url)
-    data = xr.open_dataset(data_file, engine='netcdf4')
+    download_file(url, local_filename)
+    data = xr.open_dataset(local_filename, engine='netcdf4')
     t2m = data.t2m
     t2m = t2m - 273.15
     t2m = (t2m*(9/5))+32
@@ -42,8 +47,9 @@ def ECMWF_forecast(lat = 30.2672, lon = -97.7431):
 
 def ECMWF_anom(month):
     url             = 'https://github.com/nvnsudharsan/streamlit_forecast_austin/raw/main/type_fcmean.nc'
-    data_file_1     = download_file(url)
-    anom_fc         = xr.open_dataset(data_file_1,engine='netcdf4')
+    local_filename  = 'type_fcmean.nc'
+    download_file(url, local_filename)
+    anom_fc         = xr.open_dataset(local_filename,engine='netcdf4')
     anom_fc         = anom_fc.t2a
     anom_fc_median  = anom_fc.median('number')
     temp_anom       = anom_fc_median[month,:,:].values
