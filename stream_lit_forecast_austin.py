@@ -42,7 +42,7 @@ def main():
 
    # if uploaded_file is not None:
         # Load data using xarray
-    time, median_temp, min_temp, max_temp = ECMWF_forecast()
+    time, median_temp, min_temp, max_temp = ECMWF_forecast(30.2672,-97.7431)
 
     # Display ECMWF Forecast
     #st.write("Forecast for Austin")
