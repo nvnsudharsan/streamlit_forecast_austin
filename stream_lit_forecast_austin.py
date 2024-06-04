@@ -13,7 +13,7 @@ import plotly.graph_objects as go
 # Load data using xarray
 @st.cache_data 
 def ECMWF_forecast(lat = 30.2672, lon = -97.7431):
-    data = xr.open_dataset('/Users/geo-ns36752/Downloads/forecast_ecmwf_may_.nc')
+    data = xr.open_dataset('https://github.com/nvnsudharsan/streamlit_forecast_austin/blob/main/forecast_ecmwf_may_.nc')
     t2m = data.t2m
     t2m = t2m - 273.15
     t2m = (t2m*(9/5))+32
