@@ -26,7 +26,7 @@ def ECMWF_forecast(lat = 30.2672, lon = -97.7431):
     return time, median_temp, min_temp, max_temp
 
 def ECMWF_anom(month):
-    anom_fc         = xr.open_dataset('/Users/geo-ns36752/Downloads/seasonal anomalies_may_ecmwf/type_fcmean.nc')
+    anom_fc         = xr.open_dataset('https://github.com/nvnsudharsan/streamlit_forecast_austin/blob/main/type_fcmean.nc')
     anom_fc         = anom_fc.t2a
     anom_fc_median  = anom_fc.median('number')
     temp_anom       = anom_fc_median[month,:,:].values
